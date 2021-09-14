@@ -1,14 +1,14 @@
 import { useState } from 'react/cjs/react.development';
 import './App.css';
-// import About from './components/About';
+import About from './components/About';
 import Alert from './components/Alert';
 import Navbar from './components/Navbar';
 import TextForm from './components/TextForm';
-// import {
-//   BrowserRouter as Router,
-//   Switch,
-//   Route
-// } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route
+} from "react-router-dom";
 
 
 function App() {
@@ -25,13 +25,23 @@ function App() {
     }, 1500);
   }
 
-  const toggleMode = ()=>{
+  const removeBodyClasses=()=>{
+     document.body.classList.remove('bg-light')
+     document.body.classList.remove('bg-dark')
+     document.body.classList.remove('bg-warning')
+     document.body.classList.remove('bg-danger')
+     document.body.classList.remove('bg-success')
+  };
+
+  const toggleMode = (cls)=>{
+    removeBodyClasses();
+    document.body.classList.add('bg-'+cls);
     if(mode ==='light'){
       setMode('dark');
       document.body.style.backgroundColor='gray';
       showAlert("Dark Mode has been Enabled","success");
       //document.body.style.color='white';
-      document.title="TextUtile - Dark Mode";
+      // document.title="TextUtile - Dark Mode";
     }
     else
     {
@@ -39,31 +49,31 @@ function App() {
       document.body.style.backgroundColor='white';
       showAlert("Light Mode has been Enabled","success");
       //document.body.style.color='Black';
-      document.title="TextUtile - Light Mode";
+      // document.title="TextUtile - Light Mode";
     }
   }
   return (
     <>
       {/* <Navbar title="TextUtils" aboutText="About us"/> */}
       {/* <Navbar /> */}
-      {/* <Router> */}
+      <Router>
       <Navbar title="TextUtils" mode={mode} toggleMode={toggleMode}/>
       <Alert alert={alert}/>
       <div className="container my-3">
-      {/* <Switch> */}
+      <Switch>
         {/* Users--> Component 1
         Users/home--> Component 1 */}
-          {/* <Route exact path="/about">
-            <About />
+          <Route exact path="/about">
+            <About mode={mode}/>
           </Route>
-          <Route exact path="/"> */}
-          <TextForm showAlert={showAlert} heading="Enter the text to analyse below" mode={mode}/>
-          {/* </Route> */}
-        {/* </Switch> */}
+          <Route exact path="/">
+          <TextForm showAlert={showAlert} heading="Try TextUtils - Word Counter, Character Counter, Remove Extra Spaces" mode={mode}/>
+          </Route>
+        </Switch>
          
          {/* <About/> */}
       </div>
-      {/* </Router> */}
+      </Router>
     </>
   );
 }
